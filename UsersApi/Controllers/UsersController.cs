@@ -18,7 +18,7 @@
         // GET api/users
         [Route("")]
         [HttpGet]
-        public IActionResult Get()
+        public ActionResult<List<User>> Get()
         {   
             return this.Ok(List);
         }
@@ -26,7 +26,7 @@
         // GET api/users/1
         [Route("{id}")]
         [HttpGet]
-        public IActionResult Get(int id)
+        public ActionResult<User> Get(int id)
         {
             if (id < 0)
             {
@@ -41,6 +41,25 @@
             }
 
             return this.Ok(user);
+        }
+
+        [Route("{id}/address")]
+        [HttpGet]
+        public ActionResult<string> GetAddress(int id)
+        {
+            if (id < 0)
+            {
+                return this.BadRequest("Id should be a positive number!");
+            }
+
+            var user = List.FirstOrDefault(x => x.Id == id);
+
+            if (user == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.Ok("O adresa");
         }
 
         [Route("")]
